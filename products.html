@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products | Solapur Textiles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6f0fa;
+      color: #334155;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #f4f0fa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #6b4ca6;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #6b4ca6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #a9d6e5;
+    }
+
+    main {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #6b4ca6;
+      margin-bottom: 1rem;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"],
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      width: 200px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .product-card {
+      background-color: #c3ddfd;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .product-info h3 {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-info p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      background-color: #d9c8f2;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #b8c6f8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #6b4ca6;
+      color: white;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">DesiLooms</div>
+    <nav>
+      <ul>
+        <li><a href=".">Home</a></li>
+        <li><a href="./products">Products</a></li>
+        <li><a href="./cart">Cart</a></li>
+        <li><a href="./logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Our Products</h1>
+
+    <div class="filters">
+      <input type="text" id="search" placeholder="Search products..." />
+      <select id="categoryFilter">
+        <option value="All">All Categories</option>
+        <option value="Bedding">Bedding</option>
+        <option value="Towels">Towels</option>
+        <option value="Curtains">Curtains</option>
+        <option value="Kitchen">Kitchen</option>
+        <option value="Fabric">Fabric</option>
+      </select>
+    </div>
+
+    <div class="product-grid" id="product-grid">
+      <!-- Products will load here -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Solapur Textiles. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const products = {{ prod | tojson }};
+
+    const container = document.getElementById("product-grid");
+    const searchInput = document.getElementById("search");
+    const categoryFilter = document.getElementById("categoryFilter");
+
+    function renderProducts() {
+      const searchQuery = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
+
+      container.innerHTML = "";
+
+      const filtered = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery);
+        const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+<img src="{{ url_for('static', filename='') }}${product.image_path}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p>₹${product.price}</p>
+             <form action="{{ url_for('products') }}" method="POST">
+<input type="hidden" name="product_id" value="${product.product_id}" />
+<div class="quantity-selector">
+  <input type="number" name="quantity" value="1" min="1" required />
+</div>
+      <button type="submit" class="btn">Add To Cart</button>
+    </form>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener("input", renderProducts);
+    categoryFilter.addEventListener("change", renderProducts);
+
+    // Initial load
+    renderProducts();
+  </script>
+</body>
+
+</html>

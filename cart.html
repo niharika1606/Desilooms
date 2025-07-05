@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart | Solapur Textiles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .cod-note {
+      color: #6b4ca6;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6f0fa;
+      color: #334155;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #f4f0fa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #6b4ca6;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #6b4ca6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #a9d6e5;
+    }
+
+    main {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #6b4ca6;
+      margin-bottom: 1rem;
+    }
+
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .cart-item {
+      background-color: #c3ddfd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      margin-left: 1rem;
+    }
+
+    .cart-item-info h3 {
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .cart-item-info p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .quantity {
+      width: 60px;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+
+    .remove-btn {
+      background-color: #f56565;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #e53e3e;
+    }
+
+    .cart-summary {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .cart-summary h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cart-summary .total {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background-color: #d9c8f2;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #b8c6f8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #6b4ca6;
+      color: white;
+      margin-top: 2rem;
+    }
+
+    .empty-cart-container {
+      padding: 2rem;
+      background-color: #f1f1f1;
+      border-radius: 1rem;
+      text-align: center;
+    }
+
+    .empty-cart-container p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .continue-shopping-btn {
+      margin-top: 1rem;
+      background-color: #6b4ca6;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .continue-shopping-btn:hover {
+      background-color: #5a42a0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Solapur Textiles</div>
+    <nav>
+      <ul>
+        <li><a href=".">Home</a></li>
+        <li><a href="./products">Products</a></li>
+
+        <li><a href="./cart">Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Your Cart</h1>
+
+    {% if empty %}
+    <div class="empty-cart-container">
+      <p>Your cart is empty.</p>
+      <a href="{{ url_for('products') }}"><button class="continue-shopping-btn">Continue Shopping</button></a>
+    </div>
+    {% else %}
+    <div class="cart-items" id="cart-items">
+      {% for item in cart_items %}
+      <div class="cart-item">
+        <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+        <div class="cart-item-info">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
+          <p>₹{{ item.price }}</p>
+        </div>
+        <div class="cart-item-actions">
+          <form action="{{ url_for('displaycart') }}" method="POST">
+            <input type="hidden" name="product_id" value="{{ item.product_id }}" />
+            <input type="number" class="quantity" name="quantity" value="{{ item.quantity }}" min="1" />
+            <button type="submit" class="btn" name="action" value="update">Update</button>
+            <button type="submit" class="remove-btn" name="action" value="remove">Remove</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <p class="total">Total: ₹<span id="total-price">{{ cart_total }}</span></p>
+      <p class="cod-note"><strong>Note:</strong> We only accept <strong>Cash on Delivery (COD)</strong>.</p>
+
+      <button class="btn" onclick="redirectToCheckout()">Proceed to Checkout</button>
+    </div>
+    {% endif %}
+  </main>
+
+  <script>
+    function redirectToCheckout() {
+      window.location.href = "{{ url_for('order') }}";
+    }
+  </script>
+
+  <footer>
+    <p>&copy; 2025 Solapur Textiles. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

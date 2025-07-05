@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logout | Solapur Textiles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6f0fa;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .logout-container {
+      background-color: #f4f0fa;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      color: #6b4ca6;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 2rem;
+      color: #64748b;
+    }
+
+    .btn {
+      background-color: #d9c8f2;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #b8c6f8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="logout-container">
+    <h1>Logged Out Successfully</h1>
+    <p>You have been securely logged out from your account.</p>
+    <a href="{{ url_for('login') }}" class="btn">Back to Login</a>
+  </div>
+
+  <script>
+    // Optional: Clear local storage or session
+    localStorage.clear();
+    sessionStorage.clear();
+    // You can also add AJAX call here to invalidate session on server if needed
+  </script>
+</body>
+
+</html>

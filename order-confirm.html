@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed | Solapur Textiles</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0fa;
+            color: #334155;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            flex-direction: column;
+        }
+
+        .confirmation-container {
+            background-color: #c3ddfd;
+            padding: 2rem 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #6b4ca6;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-details {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            background-color: #b298e0;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: #9c83cc;
+        }
+
+        .contact-section {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .contact-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #6b4ca6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="confirmation-container">
+        <h1>Thank You for Your Order!</h1>
+        <p>Your order has been placed successfully.</p>
+
+        <div class="order-details">
+            <p><strong>Order ID:</strong> {{ order_id }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ total_amount }}</p>
+            <p><strong>Status:</strong> Confirmed</p>
+        </div>
+
+        <a href="/products" class="btn">Continue Shopping</a>
+        <a href="/track-order/{{ order_id }}" class="btn">Track Your Order</a>
+    </div>
+
+    <div class="contact-section">
+        <h2>Need Help?</h2>
+        <p>If you have any questions, feel free to <a href="/contact"
+                style="color: #6b4ca6; text-decoration: underline;">contact us</a>.</p>
+        <p>Email: support@solapurtextiles.com | Phone: +91 12345 67890</p>
+    </div>
+</body>
+
+</html>

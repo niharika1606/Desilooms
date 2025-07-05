@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Orders | Admin - Solapur Textiles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0fa;
+            color: #334155;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f4f0fa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6b4ca6;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #6b4ca6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #a9d6e5;
+        }
+
+        main {
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #6b4ca6;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 95%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d9c8f2;
+            color: white;
+            font-weight: 600;
+        }
+
+        td {
+            color: #334155;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f0fa;
+        }
+
+        tr:hover {
+            background-color: #e2e8f0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #6b4ca6;
+            color: white;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Solapur Textiles</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% if session['username'] == 'admin' %}
+                <li><a href="./orders">View All Orders</a></li>
+                <li><a href="{{ url_for('add_product') }}">Add New Product</a></li>
+
+                {% else %}
+                <li><a href="./products">Products</a></li>
+
+                <li><a href="./cart">Cart</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>All Orders</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.username }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>₹{{ order.total_amount }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.shipping_address }}</td>
+                    <td>{{ order.shipping_phone_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Solapur Textiles. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
